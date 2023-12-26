@@ -1,0 +1,424 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/controllers/Helpers/UsefulHelper.php';
+
+class Console
+{
+    public $dir = __DIR__;
+    protected $files_to_exclude = [
+        '.gitignore',
+        '.gitmodules',
+        '.gitattributes',
+        '.travis.yml',
+        // 'composer.json',
+        // 'composer.lock',
+        // 'package.json',
+        // 'package-lock.json',
+        'antonella',
+        'readme.md',
+        'bitbucket-pipelines.yml',
+        'CHANGELOG.md',
+        'CONTRIBUTING.md',
+        'Gruntfile.js',
+        'LICENSE',
+        'readme.md',
+        'README.md',
+        'readme.txt',
+        'bitbucket-pipelines.yml',
+        'wp-cli.phar',
+        '.env',
+        '.env-example'
+    ];
+    protected $dirs_to_exclude_win = [
+        '.',
+        '..',
+        '.git',
+        '.github',
+        'wp-test',
+        'vendor' . DIRECTORY_SEPARATOR . 'vlucas',
+    ];
+    protected $dirs_to_exclude_linux = [
+        '.git',
+        '.github',
+        'wp-test',
+        'vendor' . DIRECTORY_SEPARATOR . 'vlucas',
+    ];
+
+    protected $understant = "XConsole dont understand you.";
+
+
+
+    public function process($data)
+    {
+        $command = $data[1];
+
+        $command_split = explode(":", $command);
+
+        if (count($command_split) == 2) {
+            if ($command_split[0] == "make")
+                switch ($command_split[1]) {
+                    case 'crud':
+                        return $this->make_crud($data);
+                        break;
+                    case 'controller':
+                        return $this->make_controller($data);
+                        break;
+                    case 'view':
+                        return $this->make_view($data);
+                        break;
+                    case 'javascript':
+                        return $this->make_javascript($data);
+                        break;
+                    default:
+                        echo ($this->understant);
+                        exit();
+                }
+        } else {
+            switch ($command) {
+                case 'zip':
+                    return $this->zip();
+                    break;
+                case 'send_email':
+                    return $this->send_email($data);
+                    break;
+                default:
+                    echo ($this->understant);
+                    exit();
+            }
+        }
+    }
+
+
+    // COMMANDS AVAILABLE
+
+    /**
+     * Command example
+     *      
+     * php console zip
+     */
+    public function zip()
+    {
+        echo ("XConsole is packing the plugin \n");
+        $SO = strtoupper(substr(PHP_OS, 0, 3));
+        if ($SO === 'WIN') {
+            $this->zip_win();
+        } else {
+            $this->zip_linux();
+        }
+        echo ("The plugin's zip file was created successfully !!");
+    }
+
+    public function zip_win()
+    {
+
+        file_exists($this->dir . '/' . basename($this->dir) . '.zip') ? unlink($this->dir . '/' . basename($this->dir) . '.zip') : false;
+        $zip = new ZipArchive();
+        $zip->open(basename($this->dir) . '.zip', ZipArchive::CREATE);
+
+        $dirName = $this->dir;
+
+        if (!is_dir($dirName)) {
+            throw new Exception('Directory ' . $dirName . ' does not exist');
+        }
+
+        $dirName = realpath($dirName);
+        if (substr($dirName, -1) != '/') {
+            $dirName .= '/';
+        }
+
+        /* 
+        * NOTE BY danbrown AT php DOT net: A good method of making 
+        * portable code in this case would be usage of the PHP constant 
+        * DIRECTORY_SEPARATOR in place of the '/' (forward slash) above. 
+        */
+
+        $dirStack = array($dirName);
+        //Find the index where the last dir starts 
+        $cutFrom = strrpos(substr($dirName, 0, -1), '/') + strlen($this->dir) + 1;
+
+        while (!empty($dirStack)) {
+            $currentDir = array_pop($dirStack);
+            $filesToAdd = array();
+
+            $dir = dir($currentDir);
+
+            while (false !== ($node = $dir->read())) {
+
+                if (in_array($node, $this->files_to_exclude) || in_array($node, $this->dirs_to_exclude_win)) {
+                    continue;
+                }
+                if (is_dir($currentDir . $node)) {
+
+                    array_push($dirStack, $currentDir . $node . '/');
+                }
+                if (is_file($currentDir . $node)) {
+                    $filesToAdd[] = $node;
+                }
+            }
+
+            $localDir = substr($currentDir, $cutFrom);
+
+
+            $zip->addEmptyDir($localDir);
+            foreach ($filesToAdd as $file) {
+                $zip->addFile($currentDir . $file, $localDir . $file);
+                // echo("Added $localDir$file into plugin  \n"); 
+            }
+        }
+
+        $zip->close();
+    }
+
+    public function zip_linux()
+    {
+
+
+        file_exists($this->dir . '/' . basename($this->dir) . '.zip') ? unlink($this->dir . '/' . basename($this->dir) . '.zip') : false;
+
+        $zip = new ZipArchive();
+        $zip->open(basename($this->dir) . '.zip', ZipArchive::CREATE);
+
+        $dirName = $this->dir;
+
+        if (!is_dir($dirName)) {
+            throw new Exception('Directory ' . $dirName . ' does not exist');
+        }
+
+        $dirName = realpath($dirName);
+        $filesToExclude = $this->files_to_exclude;
+        $dirToExclude = $this->dirs_to_exclude_linux;
+
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dirName),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($files as $name => $file) {
+
+            if (!$file->isDir() && !in_array($file->getFilename(), $filesToExclude)) {
+                $filePath = $file->getRealPath();
+                $relativePath = substr($filePath, strlen($dirName) + 1);
+                // Add current file to archive
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry_info = $zip->statIndex($i);
+            foreach ($dirToExclude as $dirExclude) {
+                $pos = strpos($entry_info["name"], $dirExclude);
+                if ($pos !== false) {
+                    $zip->deleteIndex($i);
+                }
+            }
+        }
+
+        $zip->close();
+    }
+
+    /**
+     * Command example
+     *      
+     * php console make:crud admin dashboard
+     */
+    function make_crud($args)
+    {
+        $this->make_controller($args);
+
+        $this->make_view($args);
+
+        $this->make_javascript($args);
+    }
+
+    /**
+     * Command example
+     *      
+     * php console make:controller admin dashboard
+     */
+    function make_controller($args)
+    {
+        $controller_type = $args[2];
+        $controller_name = $args[3];
+
+        $controller_code = "<?php
+
+     class EX_" . $controller_name . "Controller
+     {
+     
+       static function load_assets()
+       {
+     
+         EX_Useful::load_libraries(['bootstrap4', 'lottie', 'sweet_alert']);    
+     
+         wp_enqueue_style('css_$controller_name', plugin_dir_url(__FILE__) . '../../assets/css/$controller_type/$controller_name.css');
+         wp_enqueue_script('js_$controller_name', plugin_dir_url(__FILE__) . '../../assets/js/$controller_type/$controller_name.js');
+         wp_add_inline_script('js_$controller_name', 'var url_admin_ajax = \"' . admin_url('admin-ajax.php') . '\";');
+
+         EX_Useful::view('$controller_type/$controller_name');
+
+       }
+
+         static function save_settings()
+         {           
+           \$options = \$_POST['options'];
+       
+           foreach (\$options as \$option) {
+             update_option(\$option[0], \$option[1]);
+           }
+       
+           EX_API::ajax_server_response();
+         }
+
+       }
+         ";
+
+        $result = file_put_contents(__DIR__ . "/controllers/$controller_type/" . $controller_name . ".php", $controller_code);
+
+        if ($result === false)
+            print "An error happen creating the file";
+        else print "Controller created successfully !!";
+    }
+
+    /**
+     * Command example
+     *      
+     * php console make:view admin dashboard
+     */
+    function make_view($args)
+    {
+        $view_type = $args[2];
+        $view_name = $args[3];
+
+        $view_code = '<div style="padding-right: 2%;">
+
+        <form id="ex_form_admin">
+            <br>
+            <h1>Settings</h1>
+            <br>
+    
+            @foreach($options as $key => $value)
+            <?php
+            $key_modified = str_replace("ex_", "", $key);
+            $key_modified = str_replace("_", " ", $key_modified);
+            ?>
+            <div class="mb-3 row">
+                <label class="col-form-label"><b>{{$key_modified}}:</b></label>
+                <br>
+                <input type="text" class="frm-control-plaintext" id="{{$key}}" value="{{$value}}">
+            </div>
+            @endforeach
+    
+            <br>
+    
+            <button type="button" class="btn btn-primary bt_save_settings">Save Settings</button>
+    
+            <br>
+    
+        </form>
+    
+        </div>';
+
+        $result = file_put_contents(__DIR__ . "/views/$view_type/" . $view_name . ".blade.php", $view_code);
+
+        if ($result === false)
+            print "An error happen creating the file";
+        else print "View created successfully !!";
+    }
+
+    /**
+     * Command example
+     *      
+     * php console make:javascript admin dashboard
+     */
+    function make_javascript($args)
+    {
+        $javascript_type = $args[2];
+        $javascript_name = $args[3];
+
+        $javascript_code = "$(document).ready(function () {
+            console.log('Loading $javascript_name JS script');
+          
+            show_loader(true);
+
+            reset();
+          
+            create_event_listener();
+          
+            show_loader(false);
+          });
+          
+          function reset() {           
+          
+          }
+
+          function create_event_listener() {
+
+            //Click save settings button
+            $('.bt_save_settings').click(async () => {
+              show_loader(true);
+          
+              await ex_save_settings();
+          
+              show_loader(false);
+            });
+          
+          }
+
+          async function ajax_function(){
+            let param = $('#input').val();
+
+            await jQuery.ajax({
+                url: url_admin_ajax,
+                type: 'post',
+                data: {
+                  action: 'ex_ajax_function',
+
+                },
+                success: function (server_response) {
+                //   server_response = JSON.parse(server_response);                 
+                  console.log(server_response);
+          
+                  let data = server_response['data'];              
+          
+                },
+                error: () => {
+                  console.log('Something went wrong, please try again...');
+                }
+          
+              });
+          }
+          ";
+
+        $result = file_put_contents(__DIR__ . "/assets/js/$javascript_type/" . $javascript_name . ".js", $javascript_code);
+
+        if ($result === false)
+            print "An error happen creating the file";
+        else print "Javascript file created successfully !!";
+    }
+
+
+    /**
+     * Command example
+     * 
+     *                               to address       Subject   template name
+     * php console send_email xeromail2017@gmail.com Test_Email test
+     */
+    function send_email($args)
+    {
+        require_once __DIR__ . '/vendor/autoload.php';
+
+        require_once(__DIR__ . '/../../../wp-load.php');
+
+        $to = $args[2];
+        $subject = $args[3];
+        $template = $args[4];
+
+        $result = EX_Useful::send_email($to, $subject, $template);
+
+        echo "send email operation result: $result";
+    }
+}
+
+$console = new Console();
+exit($console->process($argv));
