@@ -1,17 +1,17 @@
 <?php
 
-class WPB_Deactivate
+class FPG_Deactivate
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     function deactivate()
     {
-        WPB_Useful::log("Deactivating  Plugin Options");
+        FPG_Useful::log("Deactivating  Plugin Options");
         $this->table_delete();
         // $this->table_updates();
         $this->plugin_options();
@@ -34,7 +34,7 @@ class WPB_Deactivate
     */
     public function table_delete()
     {
-        WPB_Useful::log("Deleting Plugin Tables");
+        FPG_Useful::log("Deleting Plugin Tables");
 
         global $wpdb;
 
@@ -63,6 +63,7 @@ class WPB_Deactivate
 
         foreach ($posts as $post) {
 
+            if(isset($post['post_name'])){
             $name = sanitize_title($post['post_name']);
 
             $query = "SELECT ID FROM wp_posts 
@@ -72,6 +73,7 @@ class WPB_Deactivate
             foreach ($result as $delete_post) {
                 wp_delete_post($delete_post["ID"], true);
             }
+          }
         }
     }
 }

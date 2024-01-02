@@ -1,13 +1,13 @@
 <?php
 
-class WPB_Uninstall
+class FPG_Uninstall
 {
 
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     public function index()

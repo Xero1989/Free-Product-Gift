@@ -1,17 +1,17 @@
 <?php
 
-class WPB_Actions
+class FPG_Actions
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     function load_actions()
     {
-        // WPB_Useful::log("Resgistering Plugin Actions");
+        // FPG_Useful::log("Resgistering Plugin Actions");
 
         $actions = $this->config->actions;
 

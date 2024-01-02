@@ -1,17 +1,17 @@
 <?php
 
-class WPB_Activate
+class FPG_Activate
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     function activate()
     {
-        WPB_Useful::log("Activating Plugin Options");
+        FPG_Useful::log("Activating Plugin Options");
         $this->table_create();
         $this->table_insert_values();
         // $this->table_updates();
@@ -95,7 +95,7 @@ class WPB_Activate
 
     public function table_insert_values()
     {
-        WPB_Useful::log("INSERTING TABLE VALUES");
+        FPG_Useful::log("INSERTING TABLE VALUES");
         $database_tables_values = $this->config->database_tables_values;
 
         global $wpdb;
@@ -117,23 +117,25 @@ class WPB_Activate
 
     function create_posts()
     {
-        // WPB_Useful::log("Resgistering Plugin Posts");
+        // FPG_Useful::log("Resgistering Plugin Posts");
 
         $posts = $this->config->posts;
 
         global $wpdb;
 
         foreach ($posts as $post) {
+           if(isset($post['post_name'])){
+             $name = sanitize_title($post['post_name']);
 
-            $name = sanitize_title($post['post_name']);
+    $query = "SELECT * FROM wp_posts 
+    WHERE post_name = '$name'";
+    $result = $wpdb->get_results($query, ARRAY_A);
 
-            $query = "SELECT * FROM wp_posts 
-            WHERE post_name = '$name'";
-            $result = $wpdb->get_results($query, ARRAY_A);
-
-            if (count($result) == 0) {
-                $post_id = wp_insert_post($post);
-            }
+    if (count($result) == 0) {
+        $post_id = wp_insert_post($post);
+    }
+}
+    
         }
     }
 }

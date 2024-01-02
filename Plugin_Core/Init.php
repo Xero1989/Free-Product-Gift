@@ -1,6 +1,6 @@
 <?php
 
-class WPB_Init
+class FPG_Init
 {
 
     
@@ -29,7 +29,7 @@ class WPB_Init
             // $this->load_custom_posts();
 
 
-            WPB_Session::start_session();
+            FPG_Session::start_session();
 
             add_action('template_redirect',  function () {
 
@@ -45,42 +45,42 @@ class WPB_Init
 
     function load_admin_dashboard_menu()
     {
-        new WPB_AdminDashboardMenu();
+        new FPG_AdminDashboardMenu();
     }
 
     function load_routes()
     {
-        $routes = new WPB_Routes();
+        $routes = new FPG_Routes();
         $routes->register_routes();
     }
 
     function load_filters()
     {
-        $filter = new WPB_Filters();
+        $filter = new FPG_Filters();
         $filter->apply_filters();
     }
 
     function load_actions()
     {
-        $actions = new WPB_Actions();
+        $actions = new FPG_Actions();
         $actions->load_actions();
     }
 
     function load_custom_posts()
     {
-        $posts = new WPB_Custom_Posts();
+        $posts = new FPG_Custom_Posts();
         $posts->load_custom_posts();
     }
 
     function load_shortcodes()
     {
-        $shortcodes = new WPB_Shortcodes();
+        $shortcodes = new FPG_Shortcodes();
         $shortcodes->apply_shortcodes();
     }
 
     function load_individual_page_trigger()
     {
-        $individual_page_triggers = new WPB_IndividualPageTriggers();
+        $individual_page_triggers = new FPG_IndividualPageTriggers();
         $individual_page_triggers->load_individual_page_triggers();
     }
 }

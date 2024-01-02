@@ -1,17 +1,17 @@
 <?php
 
-class WPB_Shortcodes
+class FPG_Shortcodes
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     function apply_shortcodes()
     {
-        // WPB_Useful::log("Registering Plugin Shortcodes");
+        // FPG_Useful::log("Registering Plugin Shortcodes");
 
         $shortcodes = $this->config->shortcodes;
 

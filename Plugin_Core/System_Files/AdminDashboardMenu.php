@@ -1,12 +1,12 @@
 <?php
 
-class WPB_AdminDashboardMenu
+class FPG_AdminDashboardMenu
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
 
         add_action('admin_menu', [$this, 'load_admin_dashboard_menu']);
     }

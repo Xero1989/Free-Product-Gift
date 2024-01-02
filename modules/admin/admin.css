@@ -1,0 +1,27 @@
+label,
+h1 {
+    color: white;
+}
+
+#wpcontent {
+    background: url('../../images/admin/admin-background.webp') no-repeat;
+    background-size: 100% 100%;
+    /* height: 56em; */
+}
+
+#fpg_form_admin {
+    padding: 0 3em;
+}
+
+#fpg_form_admin textarea {
+    width: 50%;
+    height: 8em;
+}
+
+#fpg_form_admin input[type="text"] {
+    width: 70%;
+}
+
+#fpg_form_admin table th {
+    width: 15%;
+}

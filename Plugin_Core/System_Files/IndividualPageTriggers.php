@@ -1,17 +1,17 @@
 <?php
 
-class WPB_IndividualPageTriggers
+class FPG_IndividualPageTriggers
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     public function load_individual_page_triggers()
     {
-        // WPB_Useful::log("load_individual_page_triggers");
+        // FPG_Useful::log("load_individual_page_triggers");
 
         add_action('wp_footer', function () {
 
@@ -60,7 +60,7 @@ class WPB_IndividualPageTriggers
             // if (is_admin()) {
             // } else {
             //     if (is_page('home')) {
-            //         $homeController = new WPB_HomeController();
+            //         $homeController = new FPG_HomeController();
             //         $homeController->load_assets();
             //     }
             // }

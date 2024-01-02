@@ -1,50 +1,74 @@
 <?php
 
-class WPB_Config
+class FPG_Config
 {
 
+    public $filters = [
+        // ["the_title","FPG_AdminController","test"]
+    ];
+
+    public $actions = [
+        ["woocommerce_share","FPG_FreeGiftController","show_free_gifts"],
+        ['woocommerce_add_to_cart', 'FPG_FreeGiftController', 'add_free_gift_to_cart'],
+    ];
+
+    public $shortcodes = [
+        // ["test_shortcode", "FPG_AdminController", "testing_shortcode"]
+    ];
+
+    public $individual_page_triggers = [
+        // [
+        //     "page_slug" => "kapital-view",
+        //     "css" => ["admin/test"],
+        //     "js" => ["frontend/test"],
+        //     "functions"=> [
+        //         ["FPG_AdminController", "test"]
+        //     ]
+        // ],
+    ];
+
     public $routes = [
-        ["WPB_AdminController", "save_settings"],
+        ["FPG_AdminController", "save_settings"],
     ];
 
     public $admin_dashboard_menu = [
-        [
-            'page_title' => 'WP Plugin Base Settings',
-            'menu_title' => 'WP Plugin Base',
-            'url_slug' => 'wp-plugin-base-settings',
-            'callback' => 'WPB_AdminController::view_main_settings',
-            'icon' => '',
-            // 'submenu' => [
-            //     [
-            //         'page_title' => 'Pusher Settings',
-            //         'menu_title' => 'Pusher Settings',
-            //         'url_slug'   => 'pusher-settings',
-            //         'callback'   => 'WPB_AdminController::view_pusher_settings',
-            //     ],
-            //     [
-            //         'page_title' => 'Twilio Settings',
-            //         'menu_title' => 'Twilio Settings',
-            //         'url_slug'   => 'twilio-settings',
-            //         'callback'   => 'WPB_AdminController::view_twilio_settings',
-            //     ]
-            // ]
-        ],
+        // [
+        //     // 'page_title' => 'Free Product Gift Settings',
+        //     // 'menu_title' => 'Free Product Gift Settings',
+        //     // 'url_slug' => 'free-product-gift-settings',
+        //     // 'callback' => 'FPG_AdminController::view_main_settings',
+        //     // 'icon' => '',
+        //     // 'submenu' => [
+        //     //     [
+        //     //         'page_title' => 'Pusher Settings',
+        //     //         'menu_title' => 'Pusher Settings',
+        //     //         'url_slug'   => 'pusher-settings',
+        //     //         'callback'   => 'FPG_AdminController::view_pusher_settings',
+        //     //     ],
+        //     //     [
+        //     //         'page_title' => 'Twilio Settings',
+        //     //         'menu_title' => 'Twilio Settings',
+        //     //         'url_slug'   => 'twilio-settings',
+        //     //         'callback'   => 'FPG_AdminController::view_twilio_settings',
+        //     //     ]
+        //     // ]
+        // ],
     ];
 
     public $plugin_options = [
-        // "wpb_main_setting_1" => "",
-        // "wpb_main_setting_2" => "",
+        // "fpg_main_setting_1" => "",
+        // "fpg_main_setting_2" => "",
 
-        // "wpb_pusher_setting_1" => "",
-        // "wpb_pusher_setting_2" => "",
+        // "fpg_pusher_setting_1" => "",
+        // "fpg_pusher_setting_2" => "",
 
-        // "wpb_twilio_setting_1" => "",
-        // "wpb_twilio_setting_2" => "",
+        // "fpg_twilio_setting_1" => "",
+        // "fpg_twilio_setting_2" => "",
     ];
 
     public $database_tables = [
         // [
-        //     "wpb_plugin_base", [
+        //     "fpg_plugin_base", [
         //         ["name", "VARCHAR", 255, "UNIQUE"],
         //         ["edad", "INT", 5],
         //         ["dinero", "FLOAT"],
@@ -56,7 +80,7 @@ class WPB_Config
 
     public $database_tables_values = [
         // [
-        //     "wpb_plugin_base", [
+        //     "fpg_plugin_base", [
         //         ["'jorge blanco'", 33, 1500.10, 0, "'2022-10-15 11:20:50'"],
         //     ]
         // ]
@@ -113,26 +137,5 @@ class WPB_Config
         ],
     ];
 
-    public $filters = [
-        // ["the_title","WPB_AdminController","test"]
-    ];
-
-    public $actions = [
-        // ["woocommerce_new_order","WPB_AdminController","test"]
-    ];
-
-    public $shortcodes = [
-        // ["test_shortcode", "WPB_AdminController", "testing_shortcode"]
-    ];
-
-    public $individual_page_triggers = [
-        // [
-        //     "page_slug" => "kapital-view",
-        //     "css" => ["admin/test"],
-        //     "js" => ["frontend/test"],
-        //     "functions"=> [
-        //         ["WPB_AdminController", "test"]
-        //     ]
-        // ],
-    ];
+   
 }

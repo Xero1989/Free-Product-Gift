@@ -1,17 +1,17 @@
 <?php
 
-class WPB_Filters
+class FPG_Filters
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     function apply_filters()
     {
-        // WPB_Useful::log("Resgistering Plugin Filters");
+        // FPG_Useful::log("Resgistering Plugin Filters");
 
         $filters = $this->config->filters;
 

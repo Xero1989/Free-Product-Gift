@@ -1,17 +1,17 @@
 <?php
 
-class WPB_Custom_Posts
+class FPG_Custom_Posts
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = new WPB_Config;
+        $this->config = new FPG_Config;
     }
 
     function load_custom_posts()
     {
-        // WPB_Useful::log("Registering Posts");
+        // FPG_Useful::log("Registering Posts");
 
         $custom_posts = $this->config->custom_posts;
 
