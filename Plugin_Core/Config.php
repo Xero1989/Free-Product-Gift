@@ -4,12 +4,14 @@ class FPG_Config
 {
 
     public $filters = [
-        // ["the_title","FPG_AdminController","test"]
+        // ["woocommerce_is_purchasable","FPG_FreeGiftController","woocommerce_is_purchasable",10,2]
+        // ['woocommerce_cart_item_quantity',"FPG_FreeGiftController","remove_all_quantity_fields_for_free_gifts"]
     ];
 
     public $actions = [
         ["woocommerce_share","FPG_FreeGiftController","show_free_gifts"],
-        ['woocommerce_add_to_cart', 'FPG_FreeGiftController', 'add_free_gift_to_cart'],
+        ['woocommerce_add_to_cart', 'FPG_FreeGiftController', 'woocommerce_add_to_cart'],
+        // ['wp_footer', 'FPG_FreeGiftController', 'set_free_gifts_products_visibility_none'],
     ];
 
     public $shortcodes = [
@@ -28,7 +30,7 @@ class FPG_Config
     ];
 
     public $routes = [
-        ["FPG_AdminController", "save_settings"],
+        // ["FPG_AdminController", "save_settings"],
     ];
 
     public $admin_dashboard_menu = [

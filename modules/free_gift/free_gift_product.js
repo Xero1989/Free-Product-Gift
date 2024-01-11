@@ -8,10 +8,10 @@ jQuery(document).ready(function () {
   function create_event_listener() {
   
     //Click save settings button
-    $(".div_free_product_gift input[type='radio']").change(function() {
+    jQuery(".div_free_product_gift input[type='radio']").change(function() {
       console.log("Change radio");
-        let id = $(this).prop("id");
-        let value = $(this).val();
+        let id = jQuery(this).prop("id");
+        let value = jQuery(this).val();
 
         jQuery('form.cart').find('input[name="radio_free_product_gift"]').remove();
         jQuery('form.cart').append('<input type="hidden" name="radio_free_product_gift" value="'+value+'">');

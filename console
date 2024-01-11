@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__ . '/controllers/Helpers/UsefulHelper.php';
+require_once __DIR__ . '/Helpers/UsefulHelper.php';
 
 class Console
 {

@@ -2,15 +2,15 @@
     #div_free_product_gift_container {
         /* background-color: #f5f5f5; */
         border: 1px solid #D9D9D9;
-        margin-bottom: 20px;
+        /* margin-bottom: 20px; */
        
         max-width: 100%;        
     }
 
     .div_free_product_gift{
-        display: inline-block;
-        text-align: center;
-        padding: 1em;
+        /* display: inline-block;
+        text-align: center; */
+        padding: 1em 2em;
     }
 
     #div_free_product_gift_container img {
@@ -20,8 +20,9 @@
 
     #div_free_product_gift_container label {
         text-align: center;
+        display: inline-block;
     }
 
     #div_free_product_gift_container #radio_free_product_gift_title{
-        display: block;
+        display: inline-block;
     }

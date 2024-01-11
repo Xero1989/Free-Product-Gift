@@ -3,15 +3,17 @@
 <div id='div_free_product_gift_container'>
 
 <div id="radio_free_product_gift_title">
-<input type="radio" checked /><label>Choose your free scent bottle</label>
+<input type="radio" checked /><label>Choose Your <span>FREE</span> Scent Bottle</label>
 </div>
 
+<div id="div_options_container">
 
-<?php foreach( $product_gifts as $product_gift )
+
+<?php foreach( $free_products as $free_product )
 {    
-    $id = $product_gift->get_id();
-    $title = $product_gift->get_title();
-    $image = $product_gift->get_image();
+    $id = $free_product->get_id();
+    $title = $free_product->get_title();
+    $image = $free_product->get_image();
 
     ?>
 
@@ -23,6 +25,6 @@
     <?php
 } ?>
 
-    <?php //print_r($product_gifts)  ?>
+</div>
 
 </div>
