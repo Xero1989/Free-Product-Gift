@@ -6,12 +6,15 @@ class FPG_Config
     public $filters = [
         // ["woocommerce_is_purchasable","FPG_FreeGiftController","woocommerce_is_purchasable",10,2]
         // ['woocommerce_cart_item_quantity',"FPG_FreeGiftController","remove_all_quantity_fields_for_free_gifts"]
+        ['woocommerce_add_to_cart_validation', 'FPG_FreeGiftController', 'woocommerce_add_to_cart_validation'],
     ];
 
     public $actions = [
-        ["woocommerce_share","FPG_FreeGiftController","show_free_gifts"],
+        ['woocommerce_before_add_to_cart_button','FPG_FreeGiftController', 'show_template'],
+        // ["woocommerce_share","FPG_FreeGiftController","show_free_gifts"],
         ['woocommerce_add_to_cart', 'FPG_FreeGiftController', 'woocommerce_add_to_cart'],
         // ['wp_footer', 'FPG_FreeGiftController', 'set_free_gifts_products_visibility_none'],
+        
     ];
 
     public $shortcodes = [

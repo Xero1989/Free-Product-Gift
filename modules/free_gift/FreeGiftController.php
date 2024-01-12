@@ -6,40 +6,45 @@ class FPG_FreeGiftController
     function __construct()
  {
         // add_filter( 'woocommerce_is_purchasable', [ $this, 'woocommerce_is_purchasable' ], 10, 2 );
-        add_filter( 'woocommerce_add_to_cart_validation', [ $this, 'woocommerce_add_to_cart_validation' ], 10, 5 );
+        // add_filter( 'woocommerce_add_to_cart_validation', [ $this, 'woocommerce_add_to_cart_validation' ], 10, 5 );
         // add_filter( 'woocommerce_is_sold_individually', [ $this, 'remove_all_quantity_fields_for_free_gifts' ] );
     }
 
-    function show_free_gifts()
+    function show_template()
  {
-        wp_enqueue_style( 'css_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.css' );
-        wp_enqueue_script( 'js_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.js' );
+        global $wp;
+        $current_url = add_query_arg( array(), $wp->request );
 
-        // $relation_product_gift = [ 14 => [ 16, 18 ], 2 => [ 3 ] ];
+        if ( str_contains( $current_url, 'shop/aroma-diffusers' ) ) {
+            wp_enqueue_style( 'css_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.css' );
+            wp_enqueue_script( 'js_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.js' );
 
-        // global $product;
-        // $id_product = $product->get_id();
+            // $relation_product_gift = [ 14 => [ 16, 18 ], 2 => [ 3 ] ];
 
-        // $ids_product_gifts = [];
-        // if ( array_key_exists( $id_product, $relation_product_gift ) ) {
-        //     $ids_product_gifts = $relation_product_gift[ $id_product ];
+            // global $product;
+            // $id_product = $product->get_id();
 
-        //     $product_gifts = array_map( function( $id_product ) {
-        //         return wc_get_product( $id_product );
-        //     }
-        //, $ids_product_gifts );
+            // $ids_product_gifts = [];
+            // if ( array_key_exists( $id_product, $relation_product_gift ) ) {
+            //     $ids_product_gifts = $relation_product_gift[ $id_product ];
 
-        // }
+            //     $product_gifts = array_map( function( $id_product ) {
+            //         return wc_get_product( $id_product );
+            //     }
+            //, $ids_product_gifts );
 
-        $free_products = wc_get_products( [
-            'category' => 'Free Gifts',
-        ] );
+            // }
 
-        //  FPG_Useful::log( 'product categoryss' );
-        //  FPG_Useful::log( $products );
-        //  FPG_Useful::log( $products[ 0 ]->get_id() );
+            $free_products = wc_get_products( [
+                'category' => 'Free Gifts',
+            ] );
 
-        FPG_Useful::view( 'free_gift/free-product-gift', compact( 'free_products' ) );
+            //  FPG_Useful::log( 'product categoryss' );
+            //  FPG_Useful::log( $products );
+            //  FPG_Useful::log( $products[ 0 ]->get_id() );
+
+            FPG_Useful::view( 'free_gift/free-product-gift', compact( 'free_products' ) );
+        }
 
     }
 
@@ -116,7 +121,7 @@ class FPG_FreeGiftController
 
     //     $free_products = wc_get_products( [
     //         'category' => 'Free Gifts',
-    //     ] );
+    // ] );
 
     //     FPG_Useful::log( 'products' );
     //     FPG_Useful::log( $free_products );

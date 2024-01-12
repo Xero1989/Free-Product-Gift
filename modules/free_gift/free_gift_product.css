@@ -20,9 +20,13 @@
 
     #div_free_product_gift_container label {
         text-align: center;
-        display: inline-block;
+        display: inline;
     }
 
     #div_free_product_gift_container #radio_free_product_gift_title{
-        display: inline-block;
+        display: flex;
+    }
+
+    .qodef-quantity-buttons{
+        margin-top: 0 !important;
     }

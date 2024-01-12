@@ -32,7 +32,7 @@ foreach (glob(__DIR__ . "/Helpers/*.php") as $filename) {
 }
 
 // Modules
-require_once __DIR__ . '/modules/admin/AdminController.php';
+// require_once __DIR__ . '/modules/admin/AdminController.php';
 require_once __DIR__ . '/modules/free_gift/FreeGiftController.php';
 // Modules
 
