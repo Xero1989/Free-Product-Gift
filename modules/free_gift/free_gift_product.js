@@ -13,8 +13,8 @@ jQuery(document).ready(function () {
         let id = jQuery(this).prop("id");
         let value = jQuery(this).val();
 
-        jQuery('form.cart').find('input[name="radio_free_product_gift"]').remove();
-        jQuery('form.cart').append('<input type="hidden" name="radio_free_product_gift" value="'+value+'">');
+        // jQuery('form.cart').find('input[name="radio_free_product_gift"]').remove();
+        // jQuery('form.cart').append('<input type="hidden" name="radio_free_product_gift" value="'+value+'">');
         // console.log(id);
         // console.log(value);
     });

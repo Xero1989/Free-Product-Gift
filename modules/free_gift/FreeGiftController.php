@@ -6,7 +6,7 @@ class FPG_FreeGiftController
     function __construct()
  {
         // add_filter( 'woocommerce_is_purchasable', [ $this, 'woocommerce_is_purchasable' ], 10, 2 );
-        // add_filter( 'woocommerce_add_to_cart_validation', [ $this, 'woocommerce_add_to_cart_validation' ], 10, 5 );
+        add_filter( 'woocommerce_add_to_cart_validation', [ $this, 'woocommerce_add_to_cart_validation' ], 10, 5 );
         // add_filter( 'woocommerce_is_sold_individually', [ $this, 'remove_all_quantity_fields_for_free_gifts' ] );
     }
 
@@ -17,7 +17,7 @@ class FPG_FreeGiftController
 
         if ( str_contains( $current_url, 'shop/aroma-diffusers' ) ) {
             wp_enqueue_style( 'css_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.css' );
-            wp_enqueue_script( 'js_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.js' );
+            // wp_enqueue_script( 'js_free_gift_product', plugin_dir_url( __FILE__ ) . 'free_gift_product.js' );
 
             // $relation_product_gift = [ 14 => [ 16, 18 ], 2 => [ 3 ] ];
 

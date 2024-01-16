@@ -6,7 +6,7 @@ class FPG_Config
     public $filters = [
         // ["woocommerce_is_purchasable","FPG_FreeGiftController","woocommerce_is_purchasable",10,2]
         // ['woocommerce_cart_item_quantity',"FPG_FreeGiftController","remove_all_quantity_fields_for_free_gifts"]
-        ['woocommerce_add_to_cart_validation', 'FPG_FreeGiftController', 'woocommerce_add_to_cart_validation'],
+        // ['woocommerce_add_to_cart_validation', 'FPG_FreeGiftController', 'woocommerce_add_to_cart_validation',10,5],
     ];
 
     public $actions = [
